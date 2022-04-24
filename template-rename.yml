@@ -12,7 +12,7 @@
   tasks:
     - set_fact:
 #        vm_name: "{{ vm_name }}"
-        new_vm_name: "TMP-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+        new_vm_name: "template-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
 #        datacenter: "{{ datacenter }}"
 #        cluster_name: "{{ cluster_name }}"
 

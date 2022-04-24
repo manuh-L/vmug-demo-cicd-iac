@@ -14,9 +14,9 @@ users_to_be_created:
 
 
 ####################################VCENTER #####################################
-template_name: "TMP-CentOS8"
+template_name: "template-04"
 
-vm_name: "TMP-latest"
+vm_name: "template-latest"
 datacenter: "MGlobal"
 cluster_name: "Tanzu-Cluster"
 vcenter: "vcsa-01.lab.com"
