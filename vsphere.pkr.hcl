@@ -14,7 +14,7 @@ source "vsphere-clone" "MGlobal" {
   username            = "administrator@vsphere.local"
   vcenter_server      = "vcsa-01.lab.com"
   cluster             = "Tanzu-Cluster"
-  vm_name             = "Template-latest"
+  vm_name             = "template-latest"
   notes               = "Template created on ${local.timestamp}"
   convert_to_template = "true"
   ssh_username        = "root"
