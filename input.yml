@@ -15,12 +15,12 @@ users_to_be_created:
 - {name: Jake, groups: admins, comment: "master", shell: /bin/bash}
 
 ####################################VCENTER #####################################
-template_name: "template-04"
+#template_name: "template-04"
 
-vm_name: "template-latest"
-datacenter: "MGlobal"
-cluster_name: "Tanzu-Cluster"
-vcenter: "vcsa-01.lab.com"
+#vm_name: "template-latest"
+#datacenter: "MGlobal"
+#cluster_name: "Tanzu-Cluster"
+#vcenter: "vcsa-01.lab.com"
 
 #new_vm_name: "TMP-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
 #colocar como env
