@@ -66,6 +66,3 @@ apply:
     - pip install Pyvmomi
     - ansible-playbook template-rename.yml
   when: manual
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
