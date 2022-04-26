@@ -6,10 +6,10 @@ stages:
 
 IaC:
   stage: validate
+  only:
+    - test  
   environment:
     name: test
-  only:
-    - test
   script:
     - packer --version
     - ansible --version
