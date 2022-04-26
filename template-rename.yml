@@ -13,7 +13,6 @@
     vcenter: "{{ lookup('env','PKR_VAR_VC_VCENTER') }}"
     template_name: "{{ lookup('env','ANS_VM_NAME') }}"
 #    old: "{{ lookup('env','OLD_TEMPLATE') }}"
-
 #    template_name: "TMP-CentOS8"
   hosts: localhost
   tasks:
