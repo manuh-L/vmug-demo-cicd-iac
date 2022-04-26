@@ -1,6 +1,53 @@
 # "timestamp" template function replacement
 locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 
+#variables {
+
+#  host="${env("VC_HOST")}"
+#  template_vm="${env("VC_TEMPLATE")}"
+#  vcenter="${env("VC_VCENTER")}"
+#  vm="${env("VC_VM")}"
+#  cluster="${env("VC_CLUSTER")}"
+#}
+
+
+variable "template" {
+
+  default= env("PKR_VAR_VC_TEMPLATE")
+
+}
+
+variable "vm" {
+
+  default= env("PKR_VAR_VC_VM")
+}
+
+variable "host" {
+
+  default= env("PKR_VAR_VC_HOST")
+}
+
+variable "cluster" {
+
+  default= env("PKR_VAR_VC_CLUSTER")
+}
+
+variable "vcenter" {
+
+  default= env("PKR_VAR_VC_VCENTER")
+}
+
+variable "datastore" {
+
+  default= env("PKR_VAR_VC_DS")
+}
+
+variable "datacenter" {
+
+  default= env("PKR_VAR_VC_DC")
+}
+
+
 # source blocks are analogous to the "builders" in json templates. They are used
 # in build blocks. A build block runs provisioners and post-processors on a
 # source. Read the documentation for source blocks here:
@@ -10,15 +57,17 @@ source "vsphere-clone" "MGlobal" {
   host                = "192.168.100.100"
   insecure_connection = "true"
   password            = "Password1!"
-  template            = "template-04"
+  template            = "${var.template}"
   username            = "administrator@vsphere.local"
   vcenter_server      = "vcsa-01.lab.com"
-  cluster             = "Tanzu-Cluster"
-  vm_name             = "template-latest"
+  cluster             = "${var.cluster}"
+  vm_name             = "${var.vm}"
   notes               = "Template created on ${local.timestamp}"
   convert_to_template = "true"
   ssh_username        = "root"
   ssh_password        = "Password1"
+  datacenter          = "${var.datacenter}"
+  datastore           = "${var.datastore}"
 }
 
 # a build block invokes sources and runs provisioning steps on them. The

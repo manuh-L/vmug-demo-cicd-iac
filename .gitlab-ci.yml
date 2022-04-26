@@ -19,6 +19,8 @@ IaC:
         - template-rename.yml
 
 create-template:
+  environment:
+    name: test
   stage: build
   tags:
     - local
@@ -28,6 +30,8 @@ create-template:
     - IaC
 
 reorganize-templates:
+  environment:
+    name: test
   stage: reorganize
   tags:
     - local
