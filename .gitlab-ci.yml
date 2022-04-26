@@ -42,8 +42,8 @@ reorganize-templates:
     - create-template
 
 
-Temp:
-  stage: build
+build:
+  stage: Production
   environment:
     name: production
   only:
