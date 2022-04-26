@@ -40,3 +40,34 @@ reorganize-templates:
     - ansible-playbook template-rename.yml
   needs:
     - create-template
+
+
+Temp:
+  stage: build
+  environment:
+    name: production
+  only:
+    - prod
+  tags:
+    - local
+  script:
+    - packer build vsphere.pkr.hcl
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#      when: manual
+
+apply:
+  stage: production
+  only:
+    - prod
+  tags: 
+    - local
+  environment:
+    name: production
+  script:
+    - pip install Pyvmomi
+    - ansible-playbook template-rename.yml
+  when: manual
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#      when: manual
