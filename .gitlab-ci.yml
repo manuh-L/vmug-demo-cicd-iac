@@ -2,7 +2,7 @@ stages:
   - validate
   - build
   - reorganize
-  - Production
+  - production
 
 IaC:
   stage: validate
@@ -44,7 +44,7 @@ reorganize-templates:
 
 
 build:
-  stage: Production
+  stage: production
   environment:
     name: production
   only:
