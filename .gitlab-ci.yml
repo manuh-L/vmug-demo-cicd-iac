@@ -31,8 +31,8 @@ create-template:
     - local
   script:
     - packer build vsphere.pkr.hcl
-  needs:
-    - IaC
+#  needs:
+#    - IaC
 
 reorganize-templates:
   environment:
@@ -43,8 +43,8 @@ reorganize-templates:
   script:
     - pip install Pyvmomi
     - ansible-playbook template-rename.yml
-  needs:
-    - create-template
+#  needs:
+#    - create-template
 
 apply:
   stage: production
