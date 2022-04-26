@@ -54,7 +54,7 @@ variable "datacenter" {
 # https://www.packer.io/docs/templates/hcl_templates/blocks/source
 source "vsphere-clone" "MGlobal" {
   communicator        = "ssh"
-  host                = "192.168.100.100"
+  host                = "${var.host}"
   insecure_connection = "true"
   password            = "Password1!"
   template            = "${var.template}"
