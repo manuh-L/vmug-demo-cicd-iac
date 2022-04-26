@@ -1,0 +1,77 @@
+---
+- name: Clone to Production
+  gather_facts: yes
+  vars_files:
+    - input.yml
+  vars:
+    vc_user: "{{ lookup('env','VC_USER') }}"
+    vc_passwd: "{{ lookup('env','VC_PASSWD') }}"
+    vm_name: "{{ lookup('env','ANS_VM_NAME') }}"
+    datacenter: "{{ lookup('env','PKR_VAR_VC_DC') }}"
+    cluster_name: "{{ lookup('env','PKR_VAR_VC_CLUSTER') }}"
+    vcenter: "{{ lookup('env','PKR_VAR_VC_VCENTER') }}"
+    template_name: "{{ lookup('env','ANS_TEMP_NAME') }}"
+    ds: "{{ lookup('env','PKR_VAR_VC_DS') }}"
+    host: "{{ lookup('env','PKR_VAR_VC_HOST') }}"
+    fo: "Prod"
+
+  hosts: localhost
+  tasks:
+    - set_fact:
+        new_vm_name: "template-prod-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+        test_template: "template-test-latest"
+
+
+
+    - name: Get Template "{{ template_name }}" uuid
+      vmware_guest_facts:
+        hostname: "vcsa-01.lab.com"
+        username: "administrator@vsphere.local"
+        password: "Password1!"
+        validate_certs: False
+        datacenter: "{{ datacenter }}"
+        folder: "/{{datacenter}}/vm"
+        name: "{{ template_name }}"
+      register: vm_facts
+      ignore_errors: true
+
+    - name: Rename "{{ template_name }}" to "{{ new_vm_name }}"
+      vmware_guest:
+        hostname: "{{ vcenter }}"
+        username: "{{ vc_user }}"
+        password: "{{ vc_passwd }}"
+        validate_certs: False
+        datacenter: "{{ datacenter }}"
+        cluster: "{{ cluster_name }}"
+        uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+        name: "{{ new_vm_name }}"
+        is_template: yes
+
+    - name: Clone VM last template build from test
+      community.vmware.vmware_guest_instant_clone:
+        hostname: "{{ vcenter }}"
+        username: "{{ vc_user }}"
+        password: "{{ vc_passwd }}"
+        validate_certs: False
+        folder: "/{{datacenter}}/vm"
+        datastore: "{{ ds }}"
+        datacenter: "{{ datacenter }}"
+        host: "{{ host }}"
+        name: "{{ template_name }}"
+        parent_vm: "{{ test_template }}"
+#        resource_pool: "{{ test_resource_001 }}"
+      register: vm_clone
+      delegate_to: localhost
+
+
+#    - name: Convert to template "{{ template_name }}"
+#      vmware_guest:
+#        hostname: "{{ vcenter }}"
+#        username: "{{ vc_user }}"
+#        password: "{{ vc_passwd }}"
+#        validate_certs: False
+#        datacenter: "{{ datacenter }}"
+#        cluster: "{{ cluster_name }}"
+#        uuid: "{{ vm_clone.instance.hw_product_uuid }}"
+#        name: "{{ template_name }}"
+#        is_template: yes
