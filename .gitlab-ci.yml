@@ -42,7 +42,7 @@ reorganize-templates:
     - create-template
 
 
-build:
+Pro:
   stage: Production
   environment:
     name: production
