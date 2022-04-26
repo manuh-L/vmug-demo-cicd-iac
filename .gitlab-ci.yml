@@ -2,6 +2,7 @@ stages:
   - validate
   - build
   - reorganize
+  - Production
 
 IaC:
   stage: validate
@@ -42,7 +43,7 @@ reorganize-templates:
     - create-template
 
 
-Pro:
+build:
   stage: Production
   environment:
     name: production
@@ -52,9 +53,6 @@ Pro:
     - local
   script:
     - packer build vsphere.pkr.hcl
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
 
 apply:
   stage: production
