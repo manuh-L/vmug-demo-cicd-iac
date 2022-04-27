@@ -76,8 +76,8 @@ source "vsphere-clone" "MGlobal" {
 build {
   sources = ["source.vsphere-clone.MGlobal"]
 
-  provisioner "shell-local" {
-    inline = ["ip a", "hostname"]
+  provisioner "shell" {
+    inline = ["cat /etc/passwd", "date"]
   }
 
   provisioner "ansible" {
