@@ -69,6 +69,6 @@ apply:
   environment:
     name: production
   script:
-    - pip install Pyvmomi
+    - pip3 install Pyvmomi
     - ansible-playbook template-rename.yml
   when: manual
