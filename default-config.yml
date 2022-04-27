@@ -14,7 +14,6 @@
       yum:
         name: '*'
         state: latest
- #     when: "yes == {{ update }}"
 
     - name: Create groups
       ansible.builtin.group:
@@ -32,3 +31,24 @@
         update_password: on_create
         append: yes
       with_items: "{{ users_to_be_created }}"
+
+
+    - name: Ensure chrony package is installed
+      ansible.builtin.dnf:
+        name: chrony
+        state: latest
+
+    - name: Copy chrony config
+      ansible.builtin.copy:
+        src: chrony
+        dest: /etc/chrony.conf
+        mode: 644
+        owner: root
+        group: root
+    
+    - name: Enable & start chrony
+      ansible.builtin.systemd:
+        name: chronyd
+        state: started
+        enabled: yes
+        masked: no
