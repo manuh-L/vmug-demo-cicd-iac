@@ -13,6 +13,7 @@ users_to_be_created:
 - {name: master-01, groups: admins, comment: "master", shell: /bin/bash}
 - {name: mike, groups: local, comment: "magic mike", shell: /bin/bash}
 - {name: Jake, groups: admins, comment: "master", shell: /bin/bash}
+- {name: Manuel, groups: admins, comment: "master", shell: /bin/bash}
 
 ####################################VCENTER #####################################
 #template_name: "template-04"
