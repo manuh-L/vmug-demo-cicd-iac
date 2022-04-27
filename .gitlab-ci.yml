@@ -27,6 +27,8 @@ create-template:
   environment:
     name: test
   stage: build
+  only:
+    - test   
   tags:
     - local
   script:
@@ -38,6 +40,8 @@ reorganize-templates:
   environment:
     name: test
   stage: reorganize
+  only:
+    - test 
   tags:
     - local
   script:
