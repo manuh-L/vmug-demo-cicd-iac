@@ -27,6 +27,8 @@ create-template:
   environment:
     name: test
   stage: build
+  only:
+    - test   
   tags:
     - local
   script:
@@ -38,6 +40,8 @@ reorganize-templates:
   environment:
     name: test
   stage: reorganize
+  only:
+    - test 
   tags:
     - local
   script:
@@ -45,6 +49,18 @@ reorganize-templates:
     - ansible-playbook template-rename.yml
 #  needs:
 #    - create-template
+
+
+build:
+  stage: production
+  environment:
+    name: production
+  only:
+    - prod
+  tags:
+    - local
+  script:
+    - packer build vsphere.pkr.hcl
 
 apply:
   stage: production
@@ -56,28 +72,5 @@ apply:
     name: production
   script:
     - pip install Pyvmomi
-    - ansible-playbook prod.yml
+    - ansible-playbook template-rename.yml
   when: manual
-#build:
-#  stage: production
-#  environment:
-#    name: production
-#  only:
-#    - prod
-#  tags:
-#    - local
-#  script:
-#    - packer build vsphere.pkr.hcl
-
-#apply:
-#  stage: production
-#  only:
-#    - prod
-#  tags: 
-#    - local
-#  environment:
-#    name: production
-#  script:
-#    - pip install Pyvmomi
-#    - ansible-playbook template-rename.yml
-#  when: manual
