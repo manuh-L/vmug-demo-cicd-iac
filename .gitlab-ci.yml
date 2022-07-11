@@ -105,8 +105,8 @@ apply_tf:
   artifacts:
     paths:
       - $STATE_APPLY
-  dependencies:
-    - plan
+#  dependencies:
+#    - plan
 ############################################################################################################
 
 
