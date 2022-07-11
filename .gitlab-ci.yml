@@ -8,6 +8,7 @@ variables:
 cache:
   paths:
     - ${TF_ROOT}.terraform
+    - .terraform
 
 before_script:
   - shopt -s expand_aliases
@@ -87,6 +88,7 @@ plan:
     name: test
   script:
     - cd ${TF_ROOT}
+    - terraform init
     - terraform plan -var-file=$TF_SEC -state=$STATE -out=$PLAN
     - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
   artifacts:
