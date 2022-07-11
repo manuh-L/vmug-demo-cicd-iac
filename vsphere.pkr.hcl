@@ -47,6 +47,10 @@ variable "datacenter" {
   default= env("PKR_VAR_VC_DC")
 }
 
+variable "folder" {
+
+  default= env("PKR_VAR_VC_FD")
+}
 
 # source blocks are analogous to the "builders" in json templates. They are used
 # in build blocks. A build block runs provisioners and post-processors on a
@@ -68,6 +72,7 @@ source "vsphere-clone" "MGlobal" {
   ssh_password        = "Password1"
   datacenter          = "${var.datacenter}"
   datastore           = "${var.datastore}"
+  folder              = "${var.folder}"
 }
 
 # a build block invokes sources and runs provisioning steps on them. The

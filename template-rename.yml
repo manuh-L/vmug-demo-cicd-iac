@@ -12,6 +12,7 @@
     cluster_name: "{{ lookup('env','PKR_VAR_VC_CLUSTER') }}"
     vcenter: "{{ lookup('env','PKR_VAR_VC_VCENTER') }}"
     template_name: "{{ lookup('env','ANS_TEMP_NAME') }}"
+    folder: "{{ lookup('env','PKR_VAR_VC_FD') }}"
 #    old: "{{ lookup('env','OLD_TEMPLATE') }}"
 #    template_name: "TMP-CentOS8"
   hosts: localhost
@@ -29,7 +30,7 @@
         password: "Password1!"
         validate_certs: False
         datacenter: "{{ datacenter }}"
-        folder: "/{{datacenter}}/vm"
+        folder: "/{{datacenter}}/vm/{{folder}}"
         name: "{{ template_name }}"
       register: vm_facts
 
@@ -53,7 +54,7 @@
         password: "{{ vc_passwd }}"
         validate_certs: False
         datacenter: "{{ datacenter }}"
-        folder: "/{{datacenter}}/vm"
+        folder: "/{{datacenter}}/vm/{{folder}}"
         name: "{{ vm_name }}"
       register: vm_facts
 
