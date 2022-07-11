@@ -3,10 +3,10 @@ variables:
   PLAN: plan.tfplan
   JSON_PLAN_FILE: tfplan.json
   STATE_APPLY: to.tfstate
-  TF_ROOT: /terra/
+  TF_ROOT: terra/
 cache:
   paths:
-    - ${TF_ROOT}/.terraform
+    - ${TF_ROOT}.terraform
 
 before_script:
   - shopt -s expand_aliases
@@ -72,6 +72,7 @@ init:
   environment:
     name: test
   script:
+    - pwd; ls
     - cd ${TF_ROOT}
     - terraform init
     - terraform validate
