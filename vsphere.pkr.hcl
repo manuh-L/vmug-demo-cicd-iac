@@ -82,7 +82,7 @@ build {
 
   provisioner "ansible" {
     playbook_file = "./default-config.yml"
-      extra_arguments = ["--scp-extra-args", "'0'"]
+      extra_arguments = ["-v"]
 
     }
 }
