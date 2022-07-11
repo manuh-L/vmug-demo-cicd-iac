@@ -1,7 +1,22 @@
+
+variables:
+  PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+  STATE_APPLY: to.tfstate
+  TF_ROOT: /terra/
+cache:
+  paths:
+    - ${TF_ROOT}/.terraform
+
+before_script:
+  - shopt -s expand_aliases
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+
 stages:
   - validate
   - build
   - reorganize
+  - deploy_test
   - production
 
 IaC:
@@ -47,6 +62,52 @@ reorganize-templates:
     - ansible-playbook template-rename.yml
 #  needs:
 #    - create-template
+
+
+###############################################Deploy#############################################################
+init:
+  stage: deploy_test
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+    - cd ${TF_ROOT}
+    - terraform init
+    - terraform validate
+
+plan:
+  stage: deploy_test
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+    - cd ${TF_ROOT}
+    - terraform plan -state=$STATE -out=$PLAN
+    - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
+  artifacts:
+    paths:
+      - $PLAN
+      - $STATE
+    reports:
+      terraform: $JSON_PLAN_FILE
+
+apply_tf:
+  stage: deploy_test
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+    - cd ${TF_ROOT}  
+    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
+  artifacts:
+    paths:
+      - $STATE_APPLY
+  dependencies:
+    - plan
+############################################################################################################
 
 
 build:
