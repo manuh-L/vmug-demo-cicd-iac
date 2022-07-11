@@ -106,7 +106,8 @@ apply_tf:
     name: test
   script:
     - cd ${TF_ROOT}  
-    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
+#    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
+    - terraform apply -var-file=$TF_SEC -auto-approve 
   artifacts:
     paths:
       - $STATE_APPLY
