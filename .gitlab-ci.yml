@@ -4,6 +4,7 @@ variables:
   JSON_PLAN_FILE: tfplan.json
   STATE_APPLY: to.tfstate
   TF_ROOT: terra/
+  TF_SEC: secret.tfvars
 cache:
   paths:
     - ${TF_ROOT}.terraform
@@ -73,6 +74,7 @@ init:
     name: test
   script:
     - pwd; ls
+    - echo ${CI_PROJECT_DIR}
     - cd ${TF_ROOT}
     - terraform init
     - terraform validate
@@ -85,7 +87,7 @@ plan:
     name: test
   script:
     - cd ${TF_ROOT}
-    - terraform plan -state=$STATE -out=$PLAN
+    - terraform plan -var-file=$TF_SEC -state=$STATE -out=$PLAN
     - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
   artifacts:
     paths:
