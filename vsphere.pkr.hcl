@@ -77,7 +77,7 @@ build {
   sources = ["source.vsphere-clone.MGlobal"]
 
   provisioner "shell" {
-    inline = ["cat /etc/passwd", "yum update -y"]
+    inline = ["cat /etc/passwd", "yum install httpd -y"]
   }
 
   provisioner "ansible" {
