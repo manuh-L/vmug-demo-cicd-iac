@@ -2,7 +2,7 @@
 # Please consider joining the pool (http://www.pool.ntp.org/join.html).
 pool 2.pool.ntp.org iburst
 
-Server 192.168.100.100
+Server 192.168.100.120
 
 # Record the rate at which the system clock gains/losses time.
 driftfile /var/lib/chrony/drift
